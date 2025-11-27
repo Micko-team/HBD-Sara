@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="imgs/icon.png">
+  <title>HBD Sara</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+</head>
+
+
+<body>
+
+
+  <div class="up">
+
+  <h1 id="hbdText" class="slide">Happy birthday Sara</h1>
+
+    <div class="info-btn" ><button class="btn" onclick="openMiniPage()">!</button></div>
+
+  </div>
+
+
+  <img src="imgs/piano.png" class="piano-btn" alt="Piano">
+
+
+  <div class="light"></div>
+  <div class="global-light"></div>
+
+  <div class="music-popup" id="musicPopup">
+  <div class="popup-content">
+
+      <h2>Play list</h2>
+
+      <ul class="music-list">
+          <li onclick="loadMusic('music1.mp3', 'Music 1')">Music 1</li>
+          <li onclick="loadMusic('music2.mp3', 'Music 2')">Music 2</li>
+          <li onclick="loadMusic('music3.mp3', 'Music 3')">Music 3</li>
+          <li onclick="loadMusic('music3.mp3', 'Music 3')">Music 3</li>
+          <li onclick="loadMusic('music3.mp3', 'Music 3')">Music 3</li>
+          <li onclick="loadMusic('music3.mp3', 'Music 3')">Music 3</li>
+          <li onclick="loadMusic('music3.mp3', 'Music 3')">Music 3</li>
+      </ul>
+
+      <div class="player">
+          <div class="title" id="musicTitle">No music selected</div>
+
+          <div class="controls">
+              <button id="playPauseBtn">▶</button>
+          </div>
+
+          <div class="slider-container">
+              <span id="currentTime">0:00</span>
+              <input type="range" id="seekBar" value="0" min="0" max="100">
+              <span id="duration">0:00</span>
+          </div>
+      </div>
+
+      <button class="close-btn" onclick="closePopup()">Close</button>
+  </div>
+</div>
+
+<audio id="player"></audio>
+
+
+  <div class="mini-page" id="miniPage">
+  <h2>HBD Sara 🎉 </h2>
+  <p>I made this little site for you and I hope it brings a smile to your face. Next time I’ll try to build a full 3D version. I truly wish you the best in the Konkur — I believe you’re capable of achieving anything you work for, so stay focused and never let go of your goals.</p>
+  <p>Even though we haven’t really met, I still wanted to do something meaningful for your birthday. Whatever the future brings, I hope your year is filled with success, happiness, and moments that make you proud of yourself.</p>
+  <div class="close-btn" onclick="closeMiniPage()">Close</div>
+  </div>
+
+  <img src="imgs/luster.png" alt="luster" class="luster">
+
+  <img src="imgs/pics.png" alt="future" class="pictures">
+
+  
+
+</body>
+
+
+<script>
+  function openMiniPage() {
+    document.getElementById("miniPage").style.display = "block";
+  }
+
+  function closeMiniPage() {
+    document.getElementById("miniPage").style.display = "none";
+  }
+
+  const messages = [
+    "Happy Birthday Sara",
+    "Mutlu Yıllar Sara",
+    "تولت مبارک سارا",
+    "생일 축하해요 사라",
+    "С Днем Рождения Сара"
+  ];
+
+  let index = 0;
+  const hbdElement = document.getElementById("hbdText");
+
+  function changeText() {
+    // Slide up current text
+    hbdElement.classList.add('slide-up');
+
+    // After transition ends, change text and slide down
+    setTimeout(() => {
+      index = (index + 1) % messages.length;
+      hbdElement.textContent = messages[index];
+
+      // Remove slide-up and add slide-down
+      hbdElement.classList.remove('slide-up');
+      hbdElement.classList.add('slide-down');
+    }, 600); // matches the CSS transition duration
+
+    // Remove slide-down class after animation so next cycle works
+    setTimeout(() => {
+      hbdElement.classList.remove('slide-down');
+    }, 1200);
+  }
+
+  setInterval(changeText, 4000);
+
+
+function playMusic(src) {
+    const player = document.getElementById("player");
+    player.src = "music/" + src;   // folder with your mp3 files
+    player.play();
+}
+
+document.querySelector(".piano-btn").onclick = function() {
+    document.getElementById("musicPopup").style.display = "flex";
+}
+
+function closePopup() {
+    document.getElementById("musicPopup").style.display = "none";
+}
+
+const player = document.getElementById("player");
+const playPauseBtn = document.getElementById("playPauseBtn");
+const seekBar = document.getElementById("seekBar");
+const title = document.getElementById("musicTitle");
+const currentTimeEl = document.getElementById("currentTime");
+const durationEl = document.getElementById("duration");
+
+function loadMusic(file, name) {
+    player.src = "music/" + file;
+    title.textContent = name;
+    player.play();
+    playPauseBtn.textContent = "⏸";  
+    openMusicPopup();
+}
+
+function formatTime(sec) {
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60).toString().padStart(2, "0");
+    return `${m}:${s}`;
+}
+
+playPauseBtn.onclick = () => {
+    if (player.paused) {
+        player.play();
+        playPauseBtn.textContent = "⏸";
+    } else {
+        player.pause();
+        playPauseBtn.textContent = "▶";
+    }
+};
+
+// update slider + time labels
+player.addEventListener("timeupdate", () => {
+    seekBar.value = (player.currentTime / player.duration) * 100;
+    currentTimeEl.textContent = formatTime(player.currentTime);
+    durationEl.textContent = formatTime(player.duration || 0);
+});
+
+// allow user to seek manually
+seekBar.addEventListener("input", () => {
+    player.currentTime = (seekBar.value / 100) * player.duration;
+});
+
+// open popup
+function openMusicPopup() {
+    document.getElementById("musicPopup").style.display = "flex";
+}
+
+// close popup and stop music
+function closePopup() {
+    document.getElementById("musicPopup").style.display = "none";
+    player.pause();
+    playPauseBtn.textContent = "▶";
+}
+
+</script>
+
+</html>
