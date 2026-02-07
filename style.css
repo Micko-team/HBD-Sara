@@ -124,7 +124,7 @@ h2{
 .light {
     pointer-events: none;
     position: absolute;
-    top: 70%;
+    top: 72%;
     left: 50%;
     width: 100px;
     height: 100px;
@@ -293,6 +293,49 @@ h2{
   margin-top: -340px;
 }
 
+.cake-container {
+      position: relative;
+      cursor: pointer;
+    }
+
+
+.cake{
+  position: relative;
+  width: 300px;
+  margin-left: 38.5%;
+  margin-top: 50px;
+  cursor: pointer;
+
+}
+
+.micko{
+  width: 100px;
+  margin-bottom: -30px;
+  margin-left: 100px;
+
+}
+
+.particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate(-50%, -50%);
+    }
+
+@keyframes burst {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.2);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) scale(1);
+      }
+    }
+
 @media (max-width: 600px) {
   .luster{
   width: 100px;
@@ -318,6 +361,14 @@ h2{
     width: 35px;
     height: 35px;
     font-size: 20px;
+  }
+  .cake{
+    width: 250px;
+    margin-left: 60px;
+    margin-top: 110px;
+  }
+  .micko{
+    margin-bottom: -60px;
   }
 }
 
