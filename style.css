@@ -124,7 +124,7 @@ h2{
 .light {
     pointer-events: none;
     position: absolute;
-    top: 72%;
+    top: 27%;
     left: 50%;
     width: 100px;
     height: 100px;
@@ -369,6 +369,10 @@ h2{
   }
   .micko{
     margin-bottom: -60px;
+  }
+  .light{
+    top: 42%;
+    left: 50%;
   }
 }
 
